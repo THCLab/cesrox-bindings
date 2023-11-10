@@ -12,7 +12,7 @@ fn main() {
 
 fn flapigen_expand(from: &Path, out: &Path) {
     println!("Run flapigen_expand");
-    let lib_name = "libsai_python";
+    let lib_name = "libsaid_python";
     let python_cfg = PythonConfig::new(lib_name.to_owned());
     let flapigen =
         flapigen::Generator::new(LanguageConfig::PythonConfig(python_cfg)).rustfmt_bindings(true);

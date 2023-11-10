@@ -2,7 +2,8 @@
 resolver = "2"
 
 members = [
-    "said/wasm"
+    "said/wasm",
+    "said/python"
 ]
 
 [profile.release]

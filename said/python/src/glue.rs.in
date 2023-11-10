@@ -1,62 +1,61 @@
-use sai::prefix::SelfAddressingPrefix;
-use sai::derivation::SelfAddressing;
+use said::{
+    derivation::{HashFunction, HashFunctionCode},
+    SelfAddressingIdentifier,
+};
 use std::str::FromStr;
-use sai::error::Error;
+use said::error::Error;
 
 pub enum Derivation {
     Blake3_256,
+    Blake3_512,
+    Blake2B512,
     Blake2B256,
     Blake2S256,
     SHA3_256,
     SHA2_256,
-    Blake3_512,
     SHA3_512,
-    Blake2B512,
     SHA2_512,
 }
 
 foreign_enum!(
-enum Derivation {
-	// Possible derivation algorithms
-    Blake3_256 = Derivation::Blake3_256,
-    Blake3_512 = Derivation::Blake3_512,
-    Blake2B512 = Derivation::Blake2B512,
-    Blake2B256 = Derivation::Blake2B256,
-    Blake2S256 = Derivation::Blake2S256,
-    SHA3_256 = Derivation::SHA3_256,
-    SHA2_256 = Derivation::SHA2_256,
-    SHA3_512 = Derivation::SHA3_512,
-    SHA2_512 = Derivation::SHA2_512,
-	}
+    enum Derivation {
+        Blake3_256 = Derivation::Blake3_256,
+        Blake3_512 = Derivation::Blake3_512,
+        Blake2B512 = Derivation::Blake2B512,
+        Blake2B256 = Derivation::Blake2B256,
+        Blake2S256 = Derivation::Blake2S256,
+        SHA3_256 = Derivation::SHA3_256,
+        SHA2_256 = Derivation::SHA2_256,
+        SHA3_512 = Derivation::SHA3_512,
+        SHA2_512 = Derivation::SHA2_512,
+    }
 );
 
 pub struct Sai {}
 
 impl Sai {
+    pub fn derive( derivation: Derivation, data: &str) -> String {
+        let derivation = HashFunction::from(match derivation {
+            Derivation::Blake3_256 => HashFunctionCode::Blake3_256,
+            Derivation::Blake3_512 => HashFunctionCode::Blake3_512,
+            Derivation::Blake2B512 => HashFunctionCode::Blake2B512,
+            Derivation::Blake2B256 => HashFunctionCode::Blake2B256(vec![]),
+            Derivation::Blake2S256 => HashFunctionCode::Blake2S256(vec![]),
+            Derivation::SHA3_256 => HashFunctionCode::SHA3_256,
+            Derivation::SHA2_256 => HashFunctionCode::SHA2_256,
+            Derivation::SHA3_512 => HashFunctionCode::SHA3_512,
+            Derivation::SHA2_512 => HashFunctionCode::SHA2_512,
+        });
+        derivation.derive(data.as_bytes()).to_string()
+    }
 
-   pub fn derive( derivation: Derivation, data: &str) -> String {
-    let derivation = match derivation {
-        Derivation::Blake3_256 => SelfAddressing::Blake3_256,
-        Derivation::Blake3_512 => SelfAddressing::Blake3_512,
-        Derivation::Blake2B512 => SelfAddressing::Blake2B512,
-        Derivation::Blake2B256 => SelfAddressing::Blake2B256(vec![]),
-        Derivation::Blake2S256 => SelfAddressing::Blake2S256(vec![]),
-        Derivation::SHA3_256 => SelfAddressing::SHA3_256,
-        Derivation::SHA2_256 => SelfAddressing::SHA2_256,
-        Derivation::SHA3_512 => SelfAddressing::SHA3_512,
-        Derivation::SHA2_512 => SelfAddressing::SHA2_512,
-    };
-    derivation.derive(data.as_bytes()).to_string()
-}
-
-pub fn verify(sai_prefix: &str, data: &str) -> Result<bool, Error> {
-    let sai = match SelfAddressingPrefix::from_str(sai_prefix) {
-        Ok(x) => x,
-        Err(e) => return Err(e),
-    };
-    Ok(sai.verify_binding(data.as_bytes()))
-}
-
+    pub fn verify(sai_prefix: &str, data: &str) -> Result<bool, Error> {
+        let sai = match SelfAddressingIdentifier::from_str(sai_prefix) {
+            Ok(x) => x,
+            Err(e) => return Err(e),
+        };
+        Ok(sai.verify_binding(data.as_bytes()))
+    }
 }
 
 foreign_class!(
@@ -65,4 +64,3 @@ foreign_class!(
         fn Sai::verify(sai_pref: &str, data: &str) -> Result<bool, Error>;
     }
 );
-
