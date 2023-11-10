@@ -1,4 +1,8 @@
-# sai_wasm
+# Self-Addressing Identifier - WASM
+
+WASM binding for [Rust SAID](https://github.com/THCLab/cesrox/tree/master/said)
+
+
 ### Prerequisites
 `cargo install wasm-pack`
 

@@ -28,7 +28,7 @@
       }
     </style>
     <script type="module">
-      import init, {verify, derive, Derivation} from "./../pkg/sai_wasm.js";
+      import init, {verify, derive, Derivation} from "./../pkg/self_addressing_identifier.js";
       init()
         window.addEventListener("load", function() {
           document.getElementById('sai-gen-form').addEventListener("submit", function(e) {
@@ -113,7 +113,7 @@
       <br/>
       <h2> Self-Addressing identifier - examples</h2>
       <p> This example shows how to generate Self-Addressing Identifier for any
-        arbitrary data. Read more about it at <a href="https://github.com/thclab/sai"> project page </a></p>
+        arbitrary data. Read more about it at <a href="https://github.com/THCLab/cesrox-bindings/tree/main/said/wasm"> project page </a></p>
 
 
       <div id="msg-box"> </div>
