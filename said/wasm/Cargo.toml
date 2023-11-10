@@ -1,14 +1,14 @@
 [package]
 name = "self-addressing-identifier"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 authors = ["Human Colossus"]
-description = "Self-Addressing identifier library"
-documentation = "https://github.com/thclab/sai"
-homepage = "https://github.com/thclab/sai"
-repository = "https://github.com/thclab/sai"
+description = "WASM bindings to Self-Addressing identifier library"
+documentation = "https://github.com/THCLab/cesrox-bindings/tree/main/said/wasm"
+homepage = "https://github.com/THCLab/cesrox-bindings/tree/main/said/wasm"
+repository = "https://github.com/THCLab/cesrox-bindings/tree/main/said/wasm"
 license = "EUPL-1.2"
-keywords = ["keri", "SAI", "identifier"]
+keywords = ["keri", "SAI", "SAID", "identifier"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
