@@ -8,6 +8,11 @@ use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub fn derive(derivation: Derivation, data: &str) -> String {
+    derive_bytes(derivation, data.as_bytes())
+}
+
+#[wasm_bindgen]
+pub fn derive_bytes(derivation: Derivation, data: &[u8]) -> String {
     let derivation = HashFunction::from(match derivation {
         Derivation::Blake3_256 => HashFunctionCode::Blake3_256,
         Derivation::Blake3_512 => HashFunctionCode::Blake3_512,
@@ -19,7 +24,7 @@ pub fn derive(derivation: Derivation, data: &str) -> String {
         Derivation::SHA3_512 => HashFunctionCode::SHA3_512,
         Derivation::SHA2_512 => HashFunctionCode::SHA2_512,
     });
-    derivation.derive(data.as_bytes()).to_string()
+    derivation.derive(data).to_string()
 }
 
 #[wasm_bindgen]
